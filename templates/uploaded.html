@@ -6,9 +6,13 @@
 {% block content %}
 {% if session.filenames %}
 {% for filename in session.filenames %}
-<a href="{{ url_for('get_file', filename=filename) }}" target="_blank">
+<video width="320" height="240" controls>
+    <source src="{{ url_for('get_file', filename=filename) }}" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+<!--<a href="{{ url_for('get_file', filename=filename) }}" target="_blank">
     <img src="{{ url_for('get_file', filename=filename) }}">
-</a>
+</a>-->
 {% endfor %}
 {% endif %}
 {% endblock %}
