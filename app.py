@@ -43,7 +43,7 @@ dropzone = Dropzone(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    return render_template('index2.html')
 
 
 @app.route('/html', methods=['GET', 'POST'])
