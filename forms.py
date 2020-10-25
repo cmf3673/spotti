@@ -33,7 +33,7 @@ class FortyTwoForm(FlaskForm):
 
 # upload form
 class UploadForm(FlaskForm):
-    photo = FileField('Upload Image', validators=[FileRequired(), FileAllowed(['jpg', 'jpeg', 'png', 'gif'])])
+    photo = FileField('Upload Video', validators=[FileRequired(), FileAllowed(['mp4', 'jpeg', 'jpg', 'png', 'gif'])])
     submit = SubmitField()
 
 
