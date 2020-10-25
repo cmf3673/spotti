@@ -7,7 +7,6 @@
 """
 import os
 import uuid
-import time
 
 from flask import Flask, render_template, flash, redirect, url_for, request, send_from_directory, session
 from flask_ckeditor import CKEditor, upload_success, upload_fail
@@ -56,7 +55,6 @@ def index():
         f.save(os.path.join(app.config['UPLOAD_PATH'], filename))
         flash('Upload success.')
         session['filenames'] = [filename]
-        time.sleep(300)
         return redirect(url_for('show_images'))
     return render_template('index2.html', form=form)
 
