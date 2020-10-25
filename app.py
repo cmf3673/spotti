@@ -41,9 +41,21 @@ ckeditor = CKEditor(app)
 dropzone = Dropzone(app)
 
 
+#@app.route('/', methods=['GET', 'POST'])
+#def index():
+#    return render_template('index2.html')
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index2.html')
+    form = UploadForm()
+    if form.validate_on_submit():
+        f = form.photo.data
+        filename = random_filename(f.filename)
+        f.save(os.path.join(app.config['UPLOAD_PATH'], filename))
+        flash('Upload success.')
+        session['filenames'] = [filename]
+        return redirect(url_for('show_images'))
+    return render_template('index2.html', form=form)
 
 
 @app.route('/html', methods=['GET', 'POST'])
@@ -54,6 +66,57 @@ def html():
         flash('Welcome home, %s!' % username)
         return redirect(url_for('index'))
     return render_template('pure_html.html')
+
+
+@app.route('/basic', methods=['GET', 'POST'])
+def basic():
+    form = LoginForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        flash('Welcome home, %s!' % username)
+        return redirect(url_for('index'))
+    return render_template('basic.html', form=form)
+
+
+@app.route('/bootstrap', methods=['GET', 'POST'])
+def bootstrap():
+    form = LoginForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        flash('Welcome home, %s!' % username)
+        return redirect(url_for('index'))
+    return render_template('bootstrap.html', form=form)
+
+
+@app.route('/custom-validator', methods=['GET', 'POST'])
+def custom_validator():
+    form = FortyTwoForm()
+    if form.validate_on_submit():
+        flash('Bingo!')
+        return redirect(url_for('index'))
+    return render_template('custom_validator.html', form=form)
+
+
+@app.route('/uploads/<path:filename>')
+def get_file(filename):
+    return send_from_directory(app.config['UPLOAD_PATH'], filename)
+
+
+@app.route('/uploaded-images')
+def show_images():
+    return render_template('uploaded.html')
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
+
+
+def random_filename(filename):
+    ext = os.path.splitext(filename)[1]
+    new_filename = uuid.uuid4().hex + ext
+    return new_filename
+
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():

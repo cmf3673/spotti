@@ -95,10 +95,18 @@ The above copyright notice and this permission notice shall be included in all c
           </h4>
           
           <br>
-          <a href="{{ url_for('upload') }}" target="_blank" class="btn btn-danger btn-raised btn-lg">
+          {% from 'macros.html' import form_field %}
+
+          {% block content %}
+          <form method="post" enctype="multipart/form-data">
+              {{ form.csrf_token }}
+              {{ form_field(form.photo) }}
+              {{ form.submit }}
+          </form>
+          {% endblock %}
+          <!--<a href="{{ url_for('upload') }}" target="_blank" class="btn btn-danger btn-raised btn-lg">
             <i class="fa fa-play"></i>  Try it out!
-            <!-- Soon to be the real-time model -->
-          </a>
+          </a>-->
         </div>
       </div>
     </div>
