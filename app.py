@@ -51,7 +51,7 @@ def index():
     if form.validate_on_submit():
         f = form.photo.data
         filename = random_filename(f.filename)
-        #!python track.py --source filename
+        !python track.py --source filename
         f.save(os.path.join(app.config['UPLOAD_PATH'], filename))
         flash('Upload success.')
         session['filenames'] = [filename]
